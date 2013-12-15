@@ -97,7 +97,7 @@ SECTIONS
 
     . = ALIGN(4);
     _etext = .;
-
+    
     .relocate : AT (_etext)
     {
         . = ALIGN(4);
@@ -138,4 +138,18 @@ SECTIONS
     __StackLimit = __StackTop - SIZEOF(.stack_dummy);
     PROVIDE(_sstack = __StackLimit);
     PROVIDE(_estack = __StackTop);
+
+    /* optional flash section located on the next flash page after the end of text relocation section 
+       (should assist in the creation of initialized modifiable flash pages) */
+    
+    _etextrelocate = _etext + SIZEOF(.relocate);
+    . = _etextrelocate;
+    
+    .flash ALIGN(1024) :
+    {
+    	*(.flash)
+    } >rom
+    
+    _sflash = ADDR(.flash);
+    _eflash = _sflash + SIZEOF(.flash);
 }

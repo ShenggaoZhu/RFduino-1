@@ -164,6 +164,8 @@ uint8_t UART0_RX();
  * Miscellaneous
  */
 
+#include "Memory.h"
+
 #ifdef __cplusplus
 }
 #endif
